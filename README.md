@@ -54,7 +54,7 @@ law-ai/
 3. Set up environment variables:
     - Create a `.env` file and add keys for your LLM or vector database API (e.g., OpenAI API Key):
      ```plaintext
-    connection =postgresql+psycopg://postgres:admin@localhost:5433/test
+    connection =postgresql+psycopg://data_base_user:passwrod@localhost:5433/database_name
     collection_name=my_docs
     EMBEDDING_MODEL =all-MiniLM-L6-v2
     CHAINLIT_AUTH_SECRET ="your secret key"   generate using openssl
@@ -97,8 +97,9 @@ python utils/data_loader.py data/raw/path_to_your_file data/cleaned/path_destina
 
 ### **2. Generate Embeddings**
 Run the embedding generation script to process the documents:
+for sentenze role will be employee and for fascioli role will be manager
 ```bash
-python utils/embedder.py data/cleaned/path_to_your_file --role
+python utils/embedder.py data/cleaned/path_to_your_file role-name
 ```
 
 ### **3. Query the App**
