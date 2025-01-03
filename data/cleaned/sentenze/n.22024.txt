@@ -1,0 +1,172 @@
+1 of 5
+Sunday, October 6, 2024 at 03:32:28 Central European Summer Time
+Sunday, October 6, 2024 at 03:32:28 Central European Summer Time
+Sunday, October 6, 2024 at 03:32:28 Central European Summer Time
+Sunday, October 6, 2024 at 03:32:28 Central European Summer Time
+Oggetto:
+Oggetto:
+Oggetto:
+Oggetto:n. 2/2024 – La settimana di One FISCALE
+Data:
+Data:
+Data:
+Data:
+venerdì 4 ottobre 2024 alle ore 14:39:26 Ora legale dell’Europa centrale
+Da:
+Da:
+Da:
+Da:
+One FISCALE
+A:
+A:
+A:
+A:
+Tutti
+Wolters Kluwer
+4 ottobre 2024
+Speciale: la settimana di One FISCALE
+L'edizione speciale della newsletter IPSOA che offre una sintesi delle novità più importanti della
+settimana con collegamenti puntuali per l'approfondimento in One FISCALE
+Argomento della settimana | Normativa e prassi | One Risponde | Come fare per |
+La Redazione segnala | Agenda
+Argomento della settimana
+Locazioni
+La clausola penale di una locazione è accessoria e non va tassata
+autonomamente
+di Luca Signorini - Ragioniere commercialista, pubblicista, revisore legale Membro del Professional
+Board One FISCALE
+La risposta a interpello n. 185 del 18 settembre 2024, intervenendo in materia di locazioni e imposta di
+registro, fa finalmente chiarezza sul trattamento delle clausole accessorie, in particolare quella penale.
+Finalmente, perché sul punto l’Agenzia finora si era espressa in termini diversi, divergenti rispetto a
+quanto affermato dalla Cassazione in tempi recenti (sentenza 30983 del 7 novembre 2023 poi seguita
+dalla 3466 del 7 febbraio 2024).
+Deve ritenersi ora pacifico, anche per la Prassi, che la clausola penale non ha una propria individualità,
+avente contenuto patrimoniale, e quindi non deve essere tassata ai fini dell’imposta di registro, come
+
+2 of 5
+invece le Entrate avevano più volte ribadito (tra le altre: risoluzione 91/E/2004; interpello n. 246/2022).
+Con riferimento all’imposta di registro della clausola penale inserita in un contratto di locazione,
+ricompreso nell'ampia categoria generale dei contratti a prestazioni corrispettive, vengono previamente
+ricordate le previsioni di cui all’articolo 21 del TUR, secondo cui:
+a) se un atto contiene più disposizioni che non derivano necessariamente, per la loro intrinseca natura,
+le une dalle altre, ciascuna di esse è soggetta ad imposta come se fosse un atto distinto» (comma 1);
+b) se le disposizioni contenute nell'atto derivano necessariamente, per la loro intrinseca natura, le une
+dalle altre, l'imposta si applica come se l'atto contenesse la sola disposizione che dà luogo
+all'imposizione più onerosa» (comma 2).
+La risposta n. 185 si esprime nel senso che la clausola penale è (in virtù delle disposizioni di legge; cfr.
+art. 1382 e seguenti del codice civile) correlata all’inadempimento contrattuale, con la conseguenza che,
+assumendo la clausola penale una funzione puramente accessoria e non autonoma (come confermato
+dalla Cassazione) rispetto al contratto che la prevede, l’obbligo che da essa deriva non può sussistere
+autonomamente rispetto all’obbligazione principale.
+In linea generale, in sede di registrazione del contratto di locazione contenente una clausola penale sarà
+applicata la tassazione della disposizione che dà luogo all'imposizione più onerosa, tra la disposizione
+afferente al contratto e quella relativa alla clausola penale stessa (al fine di questo confronto, alla
+clausola penale si applica la disciplina degli atti sottoposti a condizione sospensiva, tassati in misura
+fissa con 200 euro; cfr. risoluzione 91/E/2004).
+Attenzione alla compilazione del modello RLI, salvo il caso di applicazione della cedolare secca (in
+questo caso il problema della tassazione delle clausole accessorie e penali non si pone proprio, in
+quanto il registro è sostituito dall’imposta sostitutiva), perché la compilazione della casella “Clausola
+penale volontaria” di cui al quadro A, alla luce dell’intervento in questione, dovrebbe avvenire solo nel
+caso di clausole “non accessorie” (e quindi teoricamente mai per quelle penali, accessorie ad altre
+clausole principali). Sul punto è auspicabile un aggiornamento delle istruzioni di compilazione del
+modello RLI.
+Per Approfondire
+Locazione - Inquadramento
+Tassazione della “clausola penale” - Caso particolare
+Normativa e prassi
+Selezionati per te
+Imposte indirette
+Pubblicato il Decreto relativo alla razionalizzazione dell'imposta di registro,
+dell'imposta sulle successioni e donazioni, dell'imposta di bollo e degli altri tributi
+indiretti diversi dall'IVA
+Decreto legislativo 18/09/2024, n. 139
+Per Approfondire
+Riforma dell’imposta sulle successioni e donazioni: cosa cambia dal 1° gennaio 2025 - Cosa cambia
+L'imposta di registro si semplifica - Cosa cambia
+
+3 of 5
+Crisi di impresa
+Entrano in vigore le modifiche al Codice della crisi di impresa
+Decreto legislativo 13/09/2024, n. 136
+Per Approfondire
+Crisi d’impresa: come cambia con il Decreto correttivo - Cosa cambia
+Scopi primari del Codice della Crisi d’impresa e dell’Insolvenza (CCII) - Inquadramento
+Superbonus
+Approvati il modello di istanza e le relative istruzioni per il contributo a fondo
+perduto
+Agenzia delle Entrate - Provvedimento 18/09/2024
+Per Approfondire
+Superbonus: approvato il modello per richiedere il contributo a fondo perduto - Cosa cambia
+PVC
+Sottoscrizione digitale dei processi verbali di constatazione
+Agenzia delle Entrate - Provvedimento 30/09/2024
+Per Approfondire
+Processo verbale di constatazione - PVC - Inquadramento
+One Risponde
+Imposte dirette
+Tassazione di indennizzi erogati a titolo di risarcimento di perdite
+di C. Cremona, P. Monarca - Athenaeum STP S.r.l
+Una srl ha sottoscritto, corrispondendo il relativo premio, un prodotto di investimento assicurativo con
+prestazioni legate al valore dei fondi interni e con prestazioni addizionali in caso di morte (definizione da
+contratto). A seguito del decesso dell'assicurato (amministratore della srl) il beneficiario (figlio
+dell'amministratore) ha ricevuto, direttamente dalla società assicuratrice, l'indennizzo spettante. Si
+chiede quale sia il trattamento e gli effetti tributari: - a carico del beneficiario (figlio dell'amministratore); -
+a carico della srl che ha sottoscritto l'investimento e non riceverà più il rimborso di quanto versato.
+Risposta
+Ai sensi dell'art. 6, co. 2, del TUIR, gli indennizzi erogati a titolo di risarcimento di perdite effettivamente
+subite, trattandosi di danno emergente, non sono tassabili, dal momento che hanno funzione di
+reintegrazione patrimoniale (si veda anche la Risoluzione dell'Agenzia delle Entrate n. 155/E del 27
+
+4 of 5
+maggio 2002).
+Nel caso di contratti di assicurazione sulla vita che abbiano una componente di copertura del rischio
+demografico e una componente meramente finanziaria, l'indennizzo erogato dalla società assicuratrice
+sarà parzialmente esente da IRPEF, per la quota parte relativa alla componente di copertura del rischio
+demografico, e parzialmente imponibile ai fini IRPEF, per la restante quota parte finanziaria (cfr. art. 45
+del TUIR e la Circolare dell'Agenzia delle Entrate n. 8/E del 1° aprile 2016).
+Tutto ciò premesso, l'indennizzo ricevuto dal figlio dell'amministratore, beneficiario della polizza vita,
+dovrà quindi essere considerato esente IRPEF per la quota parte relativa alla copertura del rischio
+demografico e imponibile ai fini IRPEF per la quota parte meramente finanziaria. Entrambe le quote
+dovranno poi essere considerate per la verifica del corretto assoggettamento dell'indennizzo all'imposta
+di successione.
+Per quanto riguarda, invece, la posizione della srl contraente la polizza a favore di un beneficiario terzo
+alla società, si segnala la non inerenza del costo sostenuto in capo alla società, ai sensi dell'art. 109 del
+TUIR, e la conseguente necessità di trattare come tale ogni eventuale e relativa posta contabile.
+Consulta l'archivio di One Risponde Professional
+Come fare per
+Superbonus
+Come trasmettere i dati all'ENEA
+Entro il 31 ottobre 2024 vanno trasmesse, al "Portale nazionale delle classificazioni sismiche" (PNCS),
+le informazioni relative a tutti i SAL approvati entro il 1° ottobre 2024 al fine di adempiere ad un nuovo
+obbligo comunicativo per i soggetti che sostengono spese per gli interventi antisismici agevolabili con le
+regole del Superbonus.
+Stesso obbligo è previsto per i soggetti che sostengono spese per gli interventi di efficientamento
+energetico agevolabili in base alle regole sul Superbonus.
+Per Approfondire
+Presidenza del Consiglio dei Ministri - Decreto Presidente del Consiglio dei Ministri 17/09/2024
+La Redazione segnala
+Dossier - Terzo settore e impresa sociale
+L'impresa sociale, pur beneficiando di significative agevolazioni fiscali, deve operare all'interno di un
+quadro normativo rigoroso che ne garantisce l'orientamento verso finalità civiche, solidaristiche e di
+utilità sociale. Questo equilibrio tra incentivi e obblighi è essenziale per assicurare che le imprese sociali
+contribuiscano in modo significativo al benessere della comunità, promuovendo al contempo l'inclusione
+e la sostenibilità.
+Per essere aggiornato sull'argomento la Redazione propone il Dossier curato da Sara Agostini - Esperta
+in società cooperative ed Enti del Terzo Settore.
+Come consultare
+In Home page: Dossier
+
+5 of 5
+Consulta il Calendario completo
+Agenda
+Dal 4 ottobre 2024 al 18 ottobre 2024
+Di seguito il calendario delle scadenze riguardanti la materia fiscale per le
+prossime due settimane. Prendi visione su OneFISCALE degli adempimenti
+imminenti utilizzando il link sottostante.
+Note Legali | Privacy | Contatti
+Seguici su
+Se non vuoi più ricevere questa newsletter clicca qui.
+Copyright Wolters Kluwer Italia - P.I. 10209790152
+Wolters Kluwer
+When you have to be right
+
