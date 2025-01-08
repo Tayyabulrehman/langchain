@@ -77,8 +77,8 @@ packaging==23.2
 pandas==2.2.3
 pgvector==0.2.5
 pillow==11.0.0
-pinecone==5.4.2
-pinecone-client==5.0.1
+pinecone
+pinecone-client
 pinecone-plugin-inference
 pinecone-plugin-interface
 prompt_toolkit==3.0.48
