@@ -90,15 +90,14 @@ async def on_message(message: cl.Message):
 
         msg = cl.Message(content="")
 
-        prompt_template = """"You are an assistant for question-answering tasks. \
-Use the following pieces of retrieved context to answer the question. \
-If you don't know the answer, just say that you don't know. \
-Use three sentences maximum and keep the answer concise..  
-- If the user greets (e.g., 'hi', 'hello'), respond with: "Hello! How can I assist you today?"  
-- If the retrieved context is irrelevant to the question, or the user query cannot be answered based on the context, respond only with: "I couldn’t find relevant information for your query based on the given context. Please try asking something else." 
-{context}
-        Question: {question}
-        Helpful Answer:""".format(context=context, question=message.content)
+        prompt_template = """You are an assistant for question-answering tasks.
+    Use the following documents to answer the question.
+    If you don't know the answer, just say that you don't know.
+    Use three sentences maximum and keep the answer concise:
+    Question: {question}
+    Documents: {documents}
+    Answer:
+    """.format(documents=context, question=message.content)
 
         response = get_response(prompt_template)
     else:

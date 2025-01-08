@@ -38,7 +38,7 @@ def create_embeddings(file_path: str, role):
 
     vector_store = PGVector(
         embeddings=embeddings,
-        collection_name=os.getenv("collection_name"),
+        collection_name="law-index-v3",
         connection=os.getenv("connection"),
         use_jsonb=True,
     )
