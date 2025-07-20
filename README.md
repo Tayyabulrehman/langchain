@@ -108,6 +108,3 @@ python utils/embedder.py data/cleaned/path_to_your_file role-name
 ---
 
 
-## **Contact**
-For questions or feedback, please contact [tayyab@astutesoftwares.com, ashar@astutessoftwares.com].
-
