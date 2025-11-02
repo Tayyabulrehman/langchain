@@ -1,52 +1,74 @@
-import argparse
 import os
-
+import warnings
 from dotenv import load_dotenv
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_core.documents import Document
-from langchain_postgres import PGVector
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_pinecone import PineconeVectorStore
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from pinecone import Pinecone
 
+# === Disable LangChain Tracing & CodeCarbon ===
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
+os.environ["LANGCHAIN_PROJECT"] = ""
+os.environ["LANGCHAIN_ENDPOINT"] = ""
+os.environ["LANGCHAIN_API_KEY"] = ""
+os.environ["CODECARBON_LOG_LEVEL"] = "error"
+warnings.filterwarnings("ignore", message=".*CodeCarbonCallback.*")
+
+# === Load environment variables ===
 load_dotenv()
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+PINECONE_NAMESPACE = os.getenv("PINECONE_NAMESPACE", "")
 
-CHUNK_SIZE = 500  # chunk size to create snippets
-CHUNK_OVERLAP = 50  # check size to create overlap between snippets
-OUTPUT_RESULT_COUNT = 5
+# === Initialize Pinecone ===
+pc = Pinecone(api_key=PINECONE_API_KEY)
+index = pc.Index(PINECONE_INDEX_NAME)
 
+# === Text splitter (LangChain orchestration) ===
+def split_text(content: str, chunk_size: int = 500, overlap: int = 50):
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=overlap
+    )
+    return splitter.split_text(content)
 
-def create_embeddings(file_path: str, role):
-    # Initialize a list to store text snippets
-    snippets = []
-    # Initialize a CharacterTextSplitter with specified settings
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
-        separators=["\n\n", "\n", ".", " "]
+# === Create embeddings using LangChain ===
+def create_embeddings(file_path: str, user_id: str):
+    # Try reading the file in multiple encodings
+    encodings = ['utf-8', 'latin-1', 'iso-8859-1', 'cp1252']
+    file_text = None
+    for encoding in encodings:
+        try:
+            with open(file_path, "r", encoding=encoding) as f:
+                file_text = f.read()
+            print(f"✅ Successfully read file with {encoding} encoding")
+            break
+        except UnicodeDecodeError:
+            continue
+    if not file_text:
+        raise ValueError(f"❌ Could not decode file {file_path}")
+
+    # Split text
+    snippets = split_text(file_text)
+    print(f"🧩 Split into {len(snippets)} chunks")
+
+    # Create LangChain embeddings
+    embeddings = SentenceTransformerEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+    # Create LangChain vectorstore (Pinecone)
+    vectorstore = PineconeVectorStore(
+        index_name=PINECONE_INDEX_NAME,
+        embedding=embeddings,
+        namespace=PINECONE_NAMESPACE
     )
 
-    # Read the content of the file specified by file_path
-    with open(file_path, "r", encoding="utf-8") as file:
-        file_text = file.read()
-    #
-    # # Split the text into snippets using the specified settings
-    snippets = text_splitter.split_text(file_text)
-    # print(len(snippets))
-    embeddings = HuggingFaceEmbeddings(model_name=os.getenv("EMBEDDING_MODEL"))
-    data = {"manager": True if role == "manager" else False,
-            "employee": True if role == "employee" else False}
-    docs = [Document(page_content=x, metadata=data) for x in snippets]
+    # Prepare metadata
+    metadatas = [{"file_path": file_path, "user_id": user_id, "chunk_index": i} for i in range(len(snippets))]
 
-    vector_store = PGVector(
-        embeddings=embeddings,
-        collection_name=os.getenv("collection_name"),
-        connection=os.getenv("connection"),
-        use_jsonb=True,
-    )
-    vector_store.add_documents(docs)
+    # Upsert using LangChain orchestrator
+    print(f"🚀 Uploading embeddings to Pinecone...")
+    vectorstore.add_texts(snippets, metadatas=metadatas)
+    print(f"✅ Successfully embedded {len(snippets)} documents for user {user_id}")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Embeded doc")
-    parser.add_argument('file_path', type=str)
-    parser.add_argument('role', type=str)
-    args = parser.parse_args()
-    create_embeddings(args.file_path, args.role)
+    create_embeddings("../sample.txt", "1")

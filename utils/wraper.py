@@ -1,3 +1,8 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
 from langchain.llms.base import LLM
 from typing import List, Optional, Any
 import requests
@@ -24,11 +29,11 @@ class CustomAPIModel(LLM):
             run_manager: Optional[CallbackManagerForLLMRun] = None,
             **kwargs: Any,
     ) -> str:
-        url = "http://localhost:8080/v1/chat/completions"
+        url = "https://router.huggingface.co/v1/chat/completions"
 
         # Define the JSON payload
         payload = {
-            "model": "llama3.1",
+            "model": "deepseek-ai/DeepSeek-V3-0324",
             "messages": [
                 {
                     "role": "system",
@@ -42,7 +47,9 @@ class CustomAPIModel(LLM):
         }
 
         # Send POST request
-        response = requests.post(url, json=payload).json()
+        headers = {"Authorization": f"Bearer {os.getenv('HF_TOKEN')}"}
+
+        response = requests.post(url, json=payload,headers=headers).json()
         return response.get('choices')[0].get("message").get("content")
 
     # def bind_tools(self, tools: list):

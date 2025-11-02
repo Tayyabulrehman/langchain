@@ -6,7 +6,7 @@ from langchain.chains.history_aware_retriever import create_history_aware_retrie
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain.memory import ConversationBufferMemory
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings, SentenceTransformerEmbeddings
 from langchain_core.prompts import PromptTemplate, MessagesPlaceholder
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables import RunnableWithMessageHistory
@@ -21,24 +21,38 @@ import chainlit as cl
 from langchain_pinecone import PineconeVectorStore
 from langchain_postgres import PGVector
 from openai import OpenAI
+from pinecone import Pinecone
 
 from utils.auth import authenticate
 from utils.wraper import CustomAPIModel, get_response
 
 load_dotenv()
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = SentenceTransformerEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 user_memory_dict = {}
 # vectorstore = PineconeVectorStore(
 #     index_name='embedding-index-v3', embedding=embeddings,
 # )
 
+from pinecone import Pinecone
 
-vector_store = PGVector(
-    embeddings=embeddings,
-    collection_name=os.getenv("collection_name"),
-    connection=os.getenv("connection"),
-    use_jsonb=True,
+# Initialize Pinecone client and index
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+# PINECONE_NAMESPACE = os.getenv("PINECONE_NAMESPACE", "default")
+
+
+pc = Pinecone(api_key=PINECONE_API_KEY)
+index = pc.Index(PINECONE_INDEX_NAME)
+
+# Double-check your index has data
+print("🔍 Pinecone stats:", index.describe_index_stats())
+
+# Initialize LangChain vectorstore (connected to actual index)
+vector_store = PineconeVectorStore(
+    index=index,  # ✅ pass the actual index object
+    embedding=embeddings,
+    namespace="default"
 )
 
 # Define a retriever (to search the vector database for similar documents)
@@ -76,14 +90,14 @@ session_memory = {}
 async def on_message(message: cl.Message):
     print(message)
 
-    role = cl.user_session.get("user").metadata.get("role")
-    filter = {}
-    if role=="employee":
-        filter ={"employee": True}
-    elif role=="manager":
-        filter = {"manager": True}
-    context = results = vector_store.similarity_search(message.content, k=5,
-                                                       filter=filter)
+    # role = cl.user_session.get("user").metadata.get("role")
+    # filter = {}
+    # if role=="employee":
+    #     filter ={"employee": True}
+    # elif role=="manager":
+    #     filter = {"manager": True}
+    context = results = vector_store.similarity_search(message.content, k=10,
+                                                       )
     msg = cl.Message(content="")
     if context:
         context = ''.join(x.page_content for x in context)
