@@ -1,5 +1,6 @@
 import os
 
+import openai
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,7 +9,7 @@ from typing import List, Optional, Any
 import requests
 from langchain_core.callbacks import CallbackManagerForLLMRun
 from llama_stack_client import LlamaStackClient
-from openai import OpenAI
+
 
 
 class CustomAPIModel(LLM):
@@ -82,3 +83,40 @@ def get_response(prompt):
     # Send POST request
     response = requests.post(url, json=payload).json()
     return response.get('choices')[0].get("message").get("content")
+
+
+
+class ChatGPTModel(LLM):
+    def __init__(self, model_name: str = "gpt-4-turbo", temperature: float = 0.7, **kwargs):
+        super().__init__(**kwargs)
+     # Make sure your key is in env
+
+    @property
+    def _llm_type(self) -> str:
+        return "chatgpt"
+
+    def _call(
+        self,
+        prompt: str,
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
+    ) -> str:
+        """
+        Call OpenAI ChatCompletion API
+        """
+        model_name = os.getenv("OPENAI_MODEL_NAME","gpt-4-turbo")
+        temperature =os.getenv("OPENAI_MODEL_TEMPERATURE",0.7)
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        response = openai.ChatCompletion.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=temperature,
+            stop=stop,
+            **kwargs
+        )
+
+        return response.choices[0].message.content
