@@ -8,7 +8,7 @@ from langchain.llms.base import LLM
 from typing import List, Optional, Any
 import requests
 from langchain_core.callbacks import CallbackManagerForLLMRun
-from llama_stack_client import LlamaStackClient
+# from llama_stack_client import LlamaStackClient
 
 
 

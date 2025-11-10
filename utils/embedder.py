@@ -61,5 +61,5 @@ def embed_pdfs(pdf_files: list[str]):
 
     print(f"Added {len(splitted_docs)} document chunks to Pinecone index '{index_name}'.")
 
-pdf_files = ["re.pdf",]
+pdf_files = ["company_tech.pdf",]
 embed_pdfs(pdf_files)
