@@ -1,20 +1,23 @@
 import os
+from xml.dom.minidom import Document
 
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain_pinecone import PineconeVectorStore
-from pinecone import Pinecone
+from langchain.vectorstores import Pinecone as LangChainPinecone
+# from pinecone import Pinecone as pc
+from pypdf import PdfReader
+
 load_dotenv()
 
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-pc = Pinecone(api_key=PINECONE_API_KEY)
-index_name = "rag"
-index = pc.Index(index_name)
+# # pc = Pinecone(api_key=PINECONE_API_KEY)
+# index_name = "rag"
+# index = pc.Index(index_name)
 
 
 def load_pdfs(pdf_files: list[str]) -> list:
@@ -42,24 +45,91 @@ def split_documents(documents: list, chunk_size: int = 500, chunk_overlap: int =
 # ----------------------------
 # Embeddings for PDFs
 # ----------------------------
-def embed_pdfs(pdf_files: list[str]):
-    """
-    Load PDFs, split them, generate embeddings using OpenAI text-embedding-3-small, and store in Pinecone
-    """
-    # Load PDFs
-    pdf_docs = load_pdfs(pdf_files)
+# def embed_pdfs(pdf_files: list[str]):
+#     """
+#     Load PDFs, split them, generate embeddings using OpenAI text-embedding-3-small, and store in Pinecone
+#     """
+#     # Load PDFs
+#     pdf_docs = load_pdfs(pdf_files)
+#
+#     # Split documents
+#     splitted_docs = split_documents(pdf_docs)
+#
+#     # Create embeddings
+#     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+#
+#     # Create vector store and add documents
+#     vectorstore = PineconeVectorStore(embedding=embeddings, index=index)
+#     vectorstore.add_documents(documents=splitted_docs)
+#
+#     print(f"Added {len(splitted_docs)} document chunks to Pinecone index '{index_name}'.")
+from langchain.schema import Document
+from langchain_pinecone import PineconeVectorStore
 
-    # Split documents
-    splitted_docs = split_documents(pdf_docs)
+def embed_pdfs(pdf_files: list[str], metadata: dict = None):
+    """
+    Load PDFs, split them, generate embeddings using OpenAI text-embedding-3-small,
+    attach metadata, and store in Pinecone.
 
-    # Create embeddings
+    Args:
+        pdf_files (list[str]): List of PDF file paths
+        metadata (dict, optional): Metadata to attach to all document chunks
+    """
+    all_docs = []
+
+    # 1️⃣ Load PDFs and split into chunks
+    for pdf_file in pdf_files:
+        pdf_reader = PdfReader(pdf_file)
+        text = "".join([page.extract_text() or "" for page in pdf_reader.pages])
+
+        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+        chunks = splitter.split_text(text)
+
+        # Convert each chunk into a Document object with metadata
+        docs_with_meta = [
+            Document(
+                page_content=chunk,
+                metadata={"source": pdf_file, **(metadata or {})}
+            )
+            for chunk in chunks
+        ]
+        all_docs.extend(docs_with_meta)
+
+    # 2️⃣ Create embeddings
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-    # Create vector store and add documents
-    vectorstore = PineconeVectorStore(embedding=embeddings, index=index)
-    vectorstore.add_documents(documents=splitted_docs)
+    # 3️⃣ Add documents to Pinecone vector store (Pinecone v3+)
+    vectorstore = PineconeVectorStore.from_documents(
+        documents=all_docs,
+        embedding=embeddings,
+        index_name=os.environ.get("PINECONE_INDEX_NAME"),
+    )
 
-    print(f"Added {len(splitted_docs)} document chunks to Pinecone index '{index_name}'.")
+    print(f"Added {len(all_docs)} document chunks to Pinecone index '{os.environ.get('PINECONE_INDEX_NAME')}'.")
+    return vectorstore
 
-pdf_files = ["re.pdf",]
-embed_pdfs(pdf_files)
+
+from pinecone import Pinecone
+
+def delete_docs_by_metadata(index_name: str, metadata: dict,):
+    """
+    Delete documents from Pinecone index based on metadata filter.
+
+    Args:
+        index_name (str): Name of the Pinecone index
+        metadata (dict): Metadata filter, e.g., {"project": {"$eq": "voiceMe"}}
+        api_key (str): Pinecone API key
+        environment (str): Pinecone environment
+    """
+    # Initialize Pinecone client
+    client = Pinecone(api_key=os.getenv("PINECONE_API_KEY"), environment=os.getenv("PINECONE_ENVIRONMENT"))
+
+    # Connect to the index
+    index = client.Index(index_name)
+
+    # Delete vectors matching the metadata filter
+    index.delete(filter=metadata)
+
+    print(f"Deleted all documents from index '{index_name}' matching metadata: {metadata}")
+# pdf_files = ["re.pdf",]
+# embed_pdfs(pdf_files)
