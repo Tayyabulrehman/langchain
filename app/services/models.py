@@ -17,6 +17,9 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    company=Column(String, nullable=True)
+    first_name=Column(String, nullable=True)
+    last_name=Column(String, nullable=True)
     pdfs = relationship("PDFDocument", back_populates="owner")
 
 

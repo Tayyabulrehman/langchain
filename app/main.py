@@ -8,11 +8,12 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from sqlalchemy import select
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.db import engine, get_db
 from app.services import models
 from app.services.models import Base, PDFDocument, User
-from app.services.shema import UserRead, UserCreate, Token, PDFResponse, TokenData
+from app.services.shema import UserRead, UserCreate, Token, PDFResponse, TokenData, UserBase, UserGet, UserUpdate
 from app.utils.auth import get_password_hash, verify_password, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, \
     SECRET_KEY, ALGORITHM, get_user_by_email, authenticate_user
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, status
@@ -33,8 +34,16 @@ from passlib.context import CryptContext
 from jose import JWTError, jwt
 
 from utils.embedder import embed_pdfs, delete_docs_by_metadata
-
+from fastapi.middleware.cors import CORSMiddleware
+origins=['*']
 app = FastAPI()
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,  # Allow cookies and authorization headers
+        allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+        allow_headers=["*"],  # Allow all request headers
+    )
 base_dir = os.path.abspath(os.path.dirname(__file__))
 parent_dir = os.path.dirname(base_dir)
 
@@ -55,7 +64,7 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = get_password_hash(user.password)
-    db_user = models.User(email=user.email, hashed_password=hashed_password)
+    db_user = models.User(email=user.email, hashed_password=hashed_password,first_name=user.first_name, last_name=user.last_name,company=user.company)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -270,3 +279,35 @@ async def delete_pdf(
 
     return None
 
+
+@app.get("/users/me", response_model=UserRead)
+async def read_current_user(
+    current_user: User = Depends(get_current_active_user)
+):
+    print(f"Current user: {current_user.first_name} {current_user.last_name}")
+    # return current_user
+    return current_user
+
+
+
+@app.put("/users/me", response_model=UserRead)
+async def update_current_user(
+    user_update: UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_active_user)
+):
+    # Update allowed fields
+    if user_update.first_name is not None:
+        current_user.first_name = user_update.first_name
+
+    if user_update.last_name is not None:
+        current_user.last_name = user_update.last_name
+
+    if user_update.company is not None:
+        current_user.company = user_update.company
+
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+
+    return current_user
