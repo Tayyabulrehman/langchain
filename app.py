@@ -100,7 +100,6 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 #
 #     run_chainlit(__file__)
 
-
 import os
 import chainlit as cl
 from dotenv import load_dotenv
@@ -141,8 +140,8 @@ async def on_chat_start():
     Extract query params from URL:
     Example: http://localhost:8000/?user=12
     """
-    user_id = await cl.CopilotFunction(name="url_query_parameter", args={"msg": "user"}).acall()
-
+    # user_id = await cl.CopilotFunction(name="url_query_parameter", args={"msg": "user"}).acall()
+    user_id = 1
     print(f"user_id={user_id}")
     cl.user_session.set("user_id", user_id)
     cl.user_session.set("chat_history", ChatMessageHistory())
