@@ -140,8 +140,8 @@ async def on_chat_start():
     Extract query params from URL:
     Example: http://localhost:8000/?user=12
     """
-    # user_id = await cl.CopilotFunction(name="url_query_parameter", args={"msg": "user"}).acall()
-    user_id = 1
+    user_id = await cl.CopilotFunction(name="url_query_parameter", args={"msg": "user"}).acall()
+    # user_id = 1
     print(f"user_id={user_id}")
     cl.user_session.set("user_id", user_id)
     cl.user_session.set("chat_history", ChatMessageHistory())
@@ -172,6 +172,7 @@ async def on_message(message: cl.Message):
             "filter": {"user_id": user_id}
         }
     )
+    # retriever.get_relevant_documents
 
     prompt_template = """You are an assistant for question-answering tasks.
 Use the following documents to answer the question.
