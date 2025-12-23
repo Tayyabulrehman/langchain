@@ -1,4 +1,5 @@
 import os
+import re
 
 from operator import index
 
@@ -140,8 +141,9 @@ async def on_chat_start():
     Extract query params from URL:
     Example: http://localhost:8000/?user=12
     """
-    user_id = await cl.CopilotFunction(name="url_query_parameter", args={"msg": "user"}).acall()
-    # user_id = 1
+    path = cl.user_session.get("http_referer")
+    m = re.search(r'[?&]?user=(\d+)', path or "")
+    user_id = int(m.group(1)) if m else None
     print(f"user_id={user_id}")
     cl.user_session.set("user_id", user_id)
     cl.user_session.set("chat_history", ChatMessageHistory())
@@ -155,7 +157,7 @@ async def on_message(message: cl.Message):
     print(f"on_message user_id={user_id}")
 
     if not user_id:
-        await cl.Message(content="No user ID found in URL! Expected /?user=123").send()
+        await cl.Message(content="No user ID found in URL! Please excess the chatbot using admin panel").send()
         return
 
     msg = cl.Message(content="")
